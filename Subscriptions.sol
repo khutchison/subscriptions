@@ -2,7 +2,7 @@ pragma solidity ^0.5.0;
 
 contract Azimuth {
     
-    function getSponsoringCount(uint32) view external returns (uint256) {}
+    function getSponsoringCount(uint32) external view returns (uint256) {}
     
     function sponsoring(uint32, uint) public returns (uint32) {}
     
@@ -29,7 +29,7 @@ contract Subscriptions {
     mapping(uint32 => uint256) internal balances;
     uint32[] internal subscribers;
     
-    /// import subscriber list 
+    /// import subscriber list
     function importSubscribers(uint32 _point) internal onlyOwner {
         for (uint i = 0; i < azi.getSponsoringCount(_point); i++) {
             subscribers.push(azi.sponsoring(_point, i));
@@ -73,9 +73,9 @@ contract Subscriptions {
     /// a default billing rate of zero (no charge)
     uint internal billingRate = 0;
     
-    /// is it desirable to automate this? 
+    /// is it desirable to automate this?
     function bill() public onlyOwner {
-        for (uint i = 0; i< subscribers.length; i+= 1) {
+        for (uint i = 0; i < subscribers.length; i += 1) {
             if (balances[subscribers[i]] < billingRate) {
                 boot(subscribers[i]);
             } else {
