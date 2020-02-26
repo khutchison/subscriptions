@@ -8,6 +8,12 @@ contract Azimuth {
     
 }
 
+contract Ecliptic {
+
+    function getKeys(uint32) external view returns(bytes32, bytes32, uint32, uint32) {}
+
+}
+
 contract Subscriptions {
     
     Azimuth azi = Azimuth(0x223c067F8CF28ae173EE5CafEa60cA44C335fecB);
@@ -37,6 +43,16 @@ contract Subscriptions {
     }
     
     /// TODO add a blacklist of points that may not resubscribe
+
+    mapping(uint32 => bool) internal blacklist;
+
+    function addBlacklist(uint32 _point) public onlyOwner {
+        blacklist[_point] = true;
+    }
+
+    function unBlacklist(uint32 _point) public onlyOwner {
+        blacklist[_point] = false;
+    }
     
     /// check whether a point is a valid subscriber
     function isSubscriber(uint32 _point) internal view returns (bool _isSubscriber) {
